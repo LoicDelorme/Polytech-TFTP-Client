@@ -31,7 +31,7 @@ public class TFTPHelper
 	private final static int PACKET_SIZE = 516;
 
 	/**
-	 * The data size.
+	 * The default data size.
 	 */
 	private final static int DATA_SIZE = 512;
 
@@ -86,14 +86,20 @@ public class TFTPHelper
 			int answerCodeOperation = answerPacket.getData()[0] * 256 + answerPacket.getData()[1];
 			if (answerCodeOperation != TFTPRequestHelper.CODE_OPERATION_ACK)
 			{
-				return answerPacket.getData()[2] * 256 + answerPacket.getData()[3];
+				if (answerCodeOperation == TFTPRequestHelper.CODE_OPERATION_ERROR)
+				{
+
+					return answerPacket.getData()[2] * 256 + answerPacket.getData()[3];
+				}
+
+				throw new RuntimeException("Unexpected OP code.");
 			}
 
 			final FileInputStream fileInputStream = new FileInputStream(localFile);
 			byte[] data = new byte[DATA_SIZE];
 			int fileOffset = 0;
 			int currentBlock = 1;
-			int nbDataRead;
+			int nbDataRead = 0;
 			while ((fileOffset < localFile.length()) && (answerCodeOperation == TFTPRequestHelper.CODE_OPERATION_ACK))
 			{
 				nbDataRead = fileInputStream.read(data, 0, DATA_SIZE);
@@ -128,6 +134,7 @@ public class TFTPHelper
 			}
 
 			fileInputStream.close();
+			socket.close();
 
 			return (answerCodeOperation == TFTPRequestHelper.CODE_OPERATION_ACK ? 0 : answerPacket.getData()[2] * 256 + answerPacket.getData()[3]);
 		}
@@ -169,14 +176,20 @@ public class TFTPHelper
 			int answerCodeOperation = answerPacket.getData()[0] * 256 + answerPacket.getData()[1];
 			if (answerCodeOperation != TFTPRequestHelper.CODE_OPERATION_DATA)
 			{
-				return answerPacket.getData()[2] * 256 + answerPacket.getData()[3];
+				if (answerCodeOperation == TFTPRequestHelper.CODE_OPERATION_ERROR)
+				{
+
+					return answerPacket.getData()[2] * 256 + answerPacket.getData()[3];
+				}
+
+				throw new RuntimeException("Unexpected OP code.");
 			}
 
 			final FileOutputStream fileOutputStream = new FileOutputStream(localFileName);
 			final List<Integer> readBlocks = new ArrayList<Integer>();
 			while (answerCodeOperation == TFTPRequestHelper.CODE_OPERATION_DATA)
 			{
-				final int blockNumber = Math.abs(answerPacket.getData()[2] * 256 + answerPacket.getData()[3]);
+				final int blockNumber = (answerPacket.getData()[2] & 0x000000FF) * 256 + (answerPacket.getData()[3] & 0x000000FF);
 				if (!readBlocks.contains(blockNumber))
 				{
 					readBlocks.add(blockNumber);
@@ -199,6 +212,7 @@ public class TFTPHelper
 			}
 
 			fileOutputStream.close();
+			socket.close();
 
 			return (answerCodeOperation == TFTPRequestHelper.CODE_OPERATION_DATA ? 0 : answerPacket.getData()[2] * 256 + answerPacket.getData()[3]);
 		}

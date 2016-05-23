@@ -3,7 +3,7 @@ package fr.polytech.tftp;
 import java.nio.ByteBuffer;
 
 /**
- * This class represents a TFTP helper.
+ * This class represents a TFTP request helper.
  *
  * @author DELORME Loïc
  * @since 1.0.0

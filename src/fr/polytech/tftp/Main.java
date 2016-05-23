@@ -17,9 +17,11 @@ public class Main
 	 */
 	public static void main(String[] args) throws UnknownHostException
 	{
-		// final int sendFile = TFTPHelper.sendFile("D:/Downloads/ihm1_fx_all_4up.pdf", "ihm1_fx_all_4up.pdf", InetAddress.getByName("localhost"), 69);
-		// System.out.println(sendFile);
-		final int receiveFile = TFTPHelper.receiveFile("D:/Downloads/aaaaa.pdf", "ihm1_fx_all_4up.pdf", InetAddress.getByName("localhost"), 69);
+		final int sendFile = TFTPHelper.receiveFile("D:/Downloads/TO SEND/delorme.png", "delormel.png", InetAddress.getByName("134.214.119.203"), 69);
+		System.out.println(sendFile);
+		final int sendFile2 = TFTPHelper.receiveFile("D:/Downloads/TO SEND/poly_ARAR_3A_INFO.pdf", "ARAR_3A_INFO.pdf", InetAddress.getByName("134.214.119.203"), 69);
+		System.out.println(sendFile2);
+		final int receiveFile = TFTPHelper.receiveFile("D:/Downloads/TO SEND/ss.txt", "sss.txt", InetAddress.getByName("134.214.119.203"), 69);
 		System.out.println(receiveFile);
 	}
 }
