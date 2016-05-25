@@ -103,7 +103,7 @@ public class TFTPClientController implements Initializable
 				final InetAddress serverAddress = InetAddress.getByName(this.ipAddress.getText());
 				final int serverPort = Integer.parseInt(this.port.getText());
 
-				TFTPHelper.sendFile(localFileName, distantFileName, serverAddress, serverPort);
+				System.out.println(TFTPHelper.sendFile(localFileName, distantFileName, serverAddress, serverPort));
 			}
 			catch (Exception e1)
 			{
@@ -135,7 +135,7 @@ public class TFTPClientController implements Initializable
 				final InetAddress serverAddress = InetAddress.getByName(this.ipAddress.getText());
 				final int serverPort = Integer.parseInt(this.port.getText());
 
-				TFTPHelper.receiveFile(localDirectoryName, distantFileName, serverAddress, serverPort);
+				System.out.println(TFTPHelper.receiveFile(localDirectoryName, distantFileName, serverAddress, serverPort));
 			}
 			catch (Exception e1)
 			{
