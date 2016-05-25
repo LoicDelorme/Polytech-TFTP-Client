@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -52,12 +51,6 @@ public class TFTPClientController implements Initializable
 	private Button sendFileButton;
 
 	/**
-	 * The send file progress bar.
-	 */
-	@FXML
-	private ProgressBar sendFileProgressBar;
-
-	/**
 	 * The file name to receive.
 	 */
 	@FXML
@@ -80,12 +73,6 @@ public class TFTPClientController implements Initializable
 	 */
 	@FXML
 	private Button receiveFileButton;
-
-	/**
-	 * The send file progress bar.
-	 */
-	@FXML
-	private ProgressBar receiveFileProgressBar;
 
 	/**
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
