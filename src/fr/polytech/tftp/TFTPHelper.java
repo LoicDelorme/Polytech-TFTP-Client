@@ -216,6 +216,10 @@ public class TFTPHelper
 
 			return (answerCodeOperation == TFTPRequestHelper.CODE_OPERATION_DATA ? 0 : answerPacket.getData()[2] * 256 + answerPacket.getData()[3]);
 		}
+		catch (SecurityException e)
+		{
+			return OPEN_FILE_ERROR;
+		}
 		catch (SocketException e)
 		{
 			return SOCKET_ERROR;
