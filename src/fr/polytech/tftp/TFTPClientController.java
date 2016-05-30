@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
@@ -103,7 +105,14 @@ public class TFTPClientController implements Initializable
 				final InetAddress serverAddress = InetAddress.getByName(this.ipAddress.getText());
 				final int serverPort = Integer.parseInt(this.port.getText());
 
-				System.out.println(TFTPHelper.sendFile(localFileName, distantFileName, serverAddress, serverPort));
+				final int sendFile = TFTPHelper.sendFile(localFileName, distantFileName, serverAddress, serverPort);
+
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Code de retour");
+				alert.setHeaderText(null);
+				alert.setContentText("Code de retour : " + sendFile);
+
+				alert.showAndWait();
 			}
 			catch (Exception e1)
 			{
@@ -135,7 +144,14 @@ public class TFTPClientController implements Initializable
 				final InetAddress serverAddress = InetAddress.getByName(this.ipAddress.getText());
 				final int serverPort = Integer.parseInt(this.port.getText());
 
-				System.out.println(TFTPHelper.receiveFile(localDirectoryName, distantFileName, serverAddress, serverPort));
+				final int receiveFile = TFTPHelper.receiveFile(localDirectoryName, distantFileName, serverAddress, serverPort);
+
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Code de retour");
+				alert.setHeaderText(null);
+				alert.setContentText("Code de retour : " + receiveFile);
+
+				alert.showAndWait();
 			}
 			catch (Exception e1)
 			{

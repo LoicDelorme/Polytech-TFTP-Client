@@ -133,6 +133,34 @@ public class TFTPHelper
 				answerCodeOperation = answerPacket.getData()[0] * 256 + answerPacket.getData()[1];
 			}
 
+			if ((localFile.length() % DATA_SIZE) == 0)
+			{
+				requestData = TFTPRequestHelper.createDataRequest(currentBlock, data, 0);
+				requestPacket = new DatagramPacket(requestData, requestData.length, answerPacket.getAddress(), answerPacket.getPort());
+				socket.send(requestPacket);
+
+				try
+				{
+					answerPacket = new DatagramPacket(answerData, answerData.length);
+					socket.receive(answerPacket);
+				}
+				catch (SocketTimeoutException e)
+				{
+					socket.send(requestPacket);
+
+					try
+					{
+						socket.receive(answerPacket);
+					}
+					catch (SocketTimeoutException ex)
+					{
+						fileInputStream.close();
+						socket.close();
+						return NETWORK_ERROR;
+					}
+				}
+			}
+
 			fileInputStream.close();
 			socket.close();
 
